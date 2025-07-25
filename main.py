@@ -8,6 +8,12 @@ from snake import Snake
 from food import Food
 from scoreboard import Scoreboard
 import time
+from data_recorder import save_data
+from agent import choose_action
+
+#IMPORTANT SWITCH BETWEEN AI AGENT AND HUMAN
+USE_AI = True  # Switch between human or AI control
+
 
 screen = Screen()
 screen.setup(width=600, height=600)
@@ -21,12 +27,47 @@ snake = Snake()
 food = Food()
 scoreboard = Scoreboard()
 
+#this function is associated with the AI agent integration to this game
+def get_game_state(snake, food):
+    head = snake.head
+    state = {
+        "head_x": head.xcor(),
+        "head_y": head.ycor(),
+        "food_x": food.xcor(),
+        "food_y": food.ycor(),
+        "direction": snake.direction
+    }
+    return state
+
+
+#this allow us to track the movement of our game so we have to creat this function
+def move_up():
+    snake.up()
+    state = get_game_state(snake, food)
+    save_data(state, "Up")
+
+def move_down():
+    snake.down()
+    state = get_game_state(snake, food)
+    save_data(state, "Down")
+
+def move_left():
+    snake.left()
+    state = get_game_state(snake, food)
+    save_data(state, "Left")
+
+def move_right():
+    snake.right()
+    state = get_game_state(snake, food)
+    save_data(state, "Right")
+
+
 #CREATING THE KEY LISTEN METHOD
 screen.listen()
-screen.onkey(snake.up, "Up")
-screen.onkey(snake.down, "Down")
-screen.onkey(snake.left, "Left")
-screen.onkey(snake.right, "Right")
+screen.onkey(move_up, "Up")
+screen.onkey(move_down, "Down")
+screen.onkey(move_left, "Left")
+screen.onkey(move_right, "Right")
 
 #while runing our code from line 39 we noticed that the snake was not going the together
 #so in order to make them go together we introduced the tracer method by turning it off by 0
@@ -78,6 +119,20 @@ while game_is_on:
     screen.update()
     time.sleep(0.1)
     snake.move()
+
+    #AI AGENT LOOP
+    if USE_AI:
+        state = get_game_state(snake, food)
+        action = choose_action(state)
+
+        if action == "Up":
+            snake.up()
+        elif action == "Down":
+            snake.down()
+        elif action == "Left":
+            snake.left()
+        elif action == "Right":
+            snake.right()
 
     #3. DETECTING COLLISION WITH FOOD
     #4. KEEPING TRACK WITH THE SCORE WHEN THE SNAKE COLLIDE WITH THE FOOD

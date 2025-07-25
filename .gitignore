@@ -1,0 +1,16 @@
+# Bytecode + cache
+__pycache__/
+*.pyc
+
+# ML training artifacts
+*.npy
+*.h5
+*.keras
+game_data.csv
+
+# IDE settings
+.idea/
+.vscode/
+
+# Virtual environment (if created)
+venv/

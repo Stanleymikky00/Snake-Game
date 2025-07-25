@@ -18,6 +18,7 @@ class Snake:
         self.create_snake()
         #THIS WAS CREATED TO LINK THE KEY PRESS
         self.head = self.segments[0]
+        self.direction = "Right"
 
     def create_snake(self):
         for position in STARTING_POSITION:
@@ -53,18 +54,22 @@ class Snake:
         #self.head.setheading(90)
         if self.head.heading() != DOWN:
             self.head.setheading(UP)
+            self.direction = "Up"
 
     def down(self):
         #self.head.setheading(270)
         if self.head.heading() != UP:
             self.head.setheading(DOWN)
+            self.direction = "Down"
 
     def left(self):
         #self.head.setheading(180)
         if self.head.heading() != RIGHT:
             self.head.setheading(LEFT)
+            self.direction = "Left"
 
     def right(self):
         #self.head.setheading(0)
         if self.head.heading() != LEFT:
             self.head.setheading(RIGHT)
+            self.direction = "Right"
